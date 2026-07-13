@@ -1,0 +1,90 @@
+1. link pdf, gate original paper
+give sequence pair for same question. map like ex. 1(from CS1) - 9(from CS2), 2(from CS1) - 3(from CS2), etc.
+give only numbers of pairs. give excel : in two column
+
+use exel(make from answer key pdf through ai) for map with sequence of answer with Q_id.
+
+2.1. link pdf, [Question ID, Original Key,Answer with Content/Word]
+using 1st pdf find question in 2nd pdf using question_id and given answer in pdf 1 . give
+answer latter(ex. A,B,..) from pdf 2 and sequence remain same as 1st pdf. take your time..
+
+2.2. link pdf, gate original paper, [Q_id-key] pdf from ai
+i gave you 2 pdf 1st sequence is same as csv file. remember question id and answer in word(ex. antagonist) 
+according answer latter(A,B,...) because that will be used for extracting answer latter(A,B,...) from 2nd pdf 
+because in 2nd pdf answer are shuffled so give answer in latter according to 2nd pdf but sequence is remain 
+as csv file. take your time..
+
+give csv in which MSQ answer separated by "," without making space and in NAT questions give same answer given in answer key
+pdf means with range, include all columns in csv
+
+Prompt 1: For Mapping Question Sequence (CS1 to CS2)
+Use this prompt when uploading your original GATE paper, the second paper, and the extracted answer key Excel sheet.
+
+Copy and paste this:
+
+Role & Task: You are an expert data analyst. I have provided two GATE exam question papers (PDF 1/CS1 and PDF 2/CS2) and 
+an answer key/Excel file containing Question IDs and correct answers. Your task is to map the exact same questions from CS1 to CS2.
+
+Instructions:
+
+Read the text of Question 1 in CS1.
+
+Search CS2 to find the exact same question text.
+
+Note the question number in CS2.
+
+Repeat this for all questions in CS1.
+
+Use the provided Excel/Answer Key data to ensure you are accurately tracking the Question ID (Q_id).
+
+Output Format:
+Strictly output the result as a 2-column CSV/Excel format.
+
+Column 1: CS1 Question Number
+
+Column 2: Corresponding CS2 Question Number
+Do not include any extra conversational text. Only output the numbers in pairs (e.g., 1, 9 \n 2, 3).
+
+
+
+use exel(make from answer key pdf through ai) for map with sequence of answer with Q_id.
+
+
+
+
+Prompt 2: For Extracting Shuffled Answers, MSQs, and NATs
+Use this prompt when uploading PDF 1 (Master Paper + Key), PDF 2 (Shuffled Paper), and your baseline CSV sequence.
+
+Copy and paste this:
+
+Role & Task: You are an expert exam evaluator processing GATE exam data. You are provided with 
+PDF 1 (Master Paper with Q_id, Original Key, and Answer Content/Word), PDF 2 (Shuffled Paper), and a base CSV file 
+that dictates the exact output sequence.
+
+Context: The questions and the option letters (A, B, C, D) in PDF 2 are completely shuffled compared to PDF 1. However, 
+the actual text/content of the correct answer remains the same.
+
+Step-by-Step Instructions:
+For every row in the provided baseline CSV sequence, do the following:
+
+Identify: Look at the Question ID (Q_id) in the CSV.
+
+Extract Content: Find this Q_id in PDF 1. Note the exact word, phrase, or numerical value of the correct answer (e.g.,"antagonist").
+
+Match & Find New Key: Locate that exact same question in PDF 2. Look at the options (A, B, C, D) in PDF 2. Find which 
+option letter now contains the exact word/phrase you extracted in Step 2.
+
+Format Rules:
+
+For MCQ (Multiple Choice): Output the single correct option letter from PDF 2 (e.g., A).
+
+For MSQ (Multiple Select): Extract all correct option letters from PDF 2 and separate them with a comma and zero spaces (e.g., A,B,C). 
+Do NOT write "A, B, C".
+
+For NAT (Numerical Answer Type): Ignore option letters. Output the exact mathematical range exactly as it appears in the PDF 1 
+answer key (e.g., 1.5:2.5 or 45:45).
+
+Output Format:
+Generate a complete CSV containing all columns from the baseline CSV, but update the "Correct Answer" column according to the 
+new option letters from PDF 2 and the formatting rules above. Maintain the exact row sequence of the original CSV. Take your time 
+to verify each match. Do not output anything except the final CSV data.
