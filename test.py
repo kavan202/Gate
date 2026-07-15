@@ -18,7 +18,7 @@ def mark(url):
             Status = i.find_next('td',class_='bold').find_next('td',class_='bold').text
             Answer = i.find_previous('td',class_='bold').text
             result.loc[len(result)] = [Type, Q_ID, Status, Answer]
-    if (result['Q_ID'][0] == 22848211141):
+    if (result['Q_ID'].iloc[0] == 22848211141):
         ans = pd.read_csv('K.csv')
         ans["Key"] = ans["Key"].str.replace(";", ",")
     else:
