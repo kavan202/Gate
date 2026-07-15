@@ -5,4 +5,4 @@ url=st.text_input("Enter Gate paper url")
 button = st.button("Calculate")
 if button:
     marks= mark(url)
-    st.write(f"SCORE {marks}")
+    st.write(f"SCORE {marks:.2f}")
