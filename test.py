@@ -2,7 +2,8 @@ import pandas as pd
 import requests
 from bs4 import BeautifulSoup
 def mark(url):
-    paper=requests.get(url).text
+    headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)'}
+    paper=requests.get(url,headers=headers).text
     soup= BeautifulSoup(paper,'html.parser')
     result = pd.DataFrame(columns=["Type", "Q_ID","Status","Answer"])
     for i in soup.find_all('td',class_='bold'):
@@ -18,6 +19,8 @@ def mark(url):
             Status = i.find_next('td',class_='bold').find_next('td',class_='bold').text
             Answer = i.find_previous('td',class_='bold').text
             result.loc[len(result)] = [Type, Q_ID, Status, Answer]
+    if result.empty:
+        return 0
     if (result['Q_ID'].iloc[0] == 22848211141):
         ans = pd.read_csv('K.csv')
         ans["Key"] = ans["Key"].str.replace(";", ",")
@@ -29,17 +32,23 @@ def mark(url):
     fr = fr.drop(columns=['Q.No'])
     x=0
     for i in range(len(fr)):
-        if fr['Status'][i] in ['Not Attempted and Marked For Review','Not Answered']:
+        status = fr['Status'].iloc[i]
+        q_type = fr['Type'].iloc[i]
+        answer = fr['Answer'].iloc[i]
+        key = fr['Key'].iloc[i]
+        marks_val = fr['Marks'].iloc[i]
+        
+        if status in ['Not Attempted and Marked For Review', 'Not Answered']:
             pass
-        else :
-            if fr['Type'][i] == 'NAT':
-                l,h = map(float, fr['Key'][i].split('to'))
-                if l <= float(fr['Answer'][i]) <= h:
-                    x+=fr['Marks'][i]
-            else :
-                if fr['Answer'][i] == fr['Key'][i]:
-                    x+=fr['Marks'][i]
+        else:
+            if q_type == 'NAT':
+                l, h = map(float, key.split('to'))
+                if l <= float(answer) <= h:
+                    x += marks_val
+            else:
+                if answer == key:
+                    x += marks_val
                 else:
-                    if fr['Type'][i] == 'MCQ':
-                        x-=(fr['Marks'][i])*0.33
+                    if q_type == 'MCQ':
+                        x -= (marks_val) * 0.33
     return x
